@@ -1,0 +1,539 @@
+@baseUrl = http://localhost:5000
+
+### ========================================
+### AUTENTICAÇÃO
+### ========================================
+
+@adminEmail = admin@empresa.com
+@adminPassword = senha123
+
+### @name loginAdmin
+# Login
+GET {{baseUrl}}/users?email={{adminEmail}}&password={{adminPassword}}
+
+###
+
+@adminUser = {{loginAdmin.response.body.$[0]}}
+@adminId = {{loginAdmin.response.body.$[0].id}}
+@authToken = fake_jwt_token_{{loginUsuario.response.body.$[0].username}}_{{$timestamp}}
+
+###
+
+@tecnicoEmail = tecnico1@empresa.com
+@tecnicoPassword = senha123
+
+### @name loginTecnico
+# Login como Técnico
+GET {{baseUrl}}/users?email={{tecnicoEmail}}&password={{tecnicoPassword}}
+
+###
+
+@tecnicoUser = {{loginTecnico.response.body.$[0]}}
+@tecnicoId = {{loginTecnico.response.body.$[0].id}}
+@authToken = fake_jwt_token_{{loginUsuario.response.body.$[0].username}}_{{$timestamp}}
+
+
+###
+
+@atendenteEmail = atendente1@empresa.com
+@atendentePassword = senha123
+
+### @name loginAtendente
+# Login como Atendente
+GET {{baseUrl}}/users?email={{atendenteEmail}}&password={{atendentePassword}}
+
+###
+
+@atendenteId = {{loginAtendente.response.body.$[0].id}}
+@authToken = fake_jwt_token_{{loginUsuario.response.body.$[0].username}}_{{$timestamp}}
+
+
+###
+
+@usuarioEmail = usuario1@empresa.com
+@usuarioPassword = senha123
+
+### @name loginUsuario
+# Login como Usuário
+GET {{baseUrl}}/users?email={{usuarioEmail}}&password={{usuarioPassword}}
+
+###
+
+@usuarioId = {{loginUsuario.response.body.$[0].id}}
+@authToken = fake_jwt_token_{{loginUsuario.response.body.$[0].username}}_{{$timestamp}}
+
+
+###
+
+### ========================================
+### USUÁRIOS
+### ========================================
+
+### @name listUsers
+# Listar todos os usuários
+GET {{baseUrl}}/users
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getUser
+# Buscar usuário por ID
+GET {{baseUrl}}/users/{{adminId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getUsersByRole
+# Buscar usuários por role
+GET {{baseUrl}}/users?role=tecnico
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### CHAMADOS
+### ========================================
+
+### @name listChamados
+# Listar todos os chamados
+GET {{baseUrl}}/chamados
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosAbertos
+# Buscar chamados abertos
+GET {{baseUrl}}/chamados?status=aberto
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosEmAtendimento
+# Buscar chamados em atendimento
+GET {{baseUrl}}/chamados?status=em_atendimento
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosResolvidos
+# Buscar chamados resolvidos
+GET {{baseUrl}}/chamados?status=resolvido
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosAltaPrioridade
+# Buscar chamados de alta prioridade
+GET {{baseUrl}}/chamados?prioridade=alta
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosPorSetor
+# Buscar chamados por setor
+GET {{baseUrl}}/chamados?setor=Financeiro
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosPorUsuario
+# Buscar chamados por usuário
+GET {{baseUrl}}/chamados?usuario_id={{usuarioId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosPorTecnico
+# Buscar chamados por técnico
+GET {{baseUrl}}/chamados?tecnico_id={{tecnicoId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name createChamado
+# Criar novo chamado
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "titulo": "Problema com impressora - {{$timestamp}}",
+  "descricao": "A impressora está apresentando erro de papel atolado. Já tentei remover mas o problema persiste.",
+  "prioridade": "media",
+  "setor": "RH",
+  "status": "aberto",
+  "usuario_id": {{usuarioId}},
+  "tecnico_id": null,
+  "atendente_id": null,
+  "created_at": "{{$datetime iso8601}}",
+  "updated_at": "{{$datetime iso8601}}",
+  "resolved_at": null
+}
+
+###
+
+@chamadoId = {{createChamado.response.body.$.id}}
+
+###
+
+### @name getChamado
+# Buscar chamado criado
+GET {{baseUrl}}/chamados/{{chamadoId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name atribuirTecnico
+# Atribuir técnico ao chamado
+PATCH {{baseUrl}}/chamados/{{chamadoId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "tecnico_id": {{tecnicoId}},
+  "status": "em_atendimento",
+  "updated_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name resolverChamado
+# Resolver chamado
+PATCH {{baseUrl}}/chamados/{{chamadoId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "resolvido",
+  "resolved_at": "{{$datetime iso8601}}",
+  "updated_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name cancelarChamado
+# Cancelar chamado
+PATCH {{baseUrl}}/chamados/{{chamadoId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "cancelado",
+  "updated_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name atualizarPrioridade
+# Atualizar prioridade do chamado
+PATCH {{baseUrl}}/chamados/{{chamadoId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "prioridade": "alta",
+  "updated_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name deleteChamado
+# Deletar chamado
+DELETE {{baseUrl}}/chamados/{{chamadoId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### COMENTÁRIOS
+### ========================================
+
+### @name listComentarios
+# Listar todos os comentários
+GET {{baseUrl}}/comentarios
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getComentariosByChamado
+# Buscar comentários de um chamado
+GET {{baseUrl}}/comentarios?chamado_id={{chamadoId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name createComentario
+# Criar novo comentário
+POST {{baseUrl}}/comentarios
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "chamado_id": {{chamadoId}},
+  "usuario_id": {{tecnicoId}},
+  "texto": "Estou analisando o problema. Previsão de resolução: 30 minutos.",
+  "created_at": "{{$datetime iso8601}}"
+}
+
+###
+
+@comentarioId = {{createComentario.response.body.$.id}}
+
+###
+
+### @name getComentario
+# Buscar comentário criado
+GET {{baseUrl}}/comentarios/{{comentarioId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name updateComentario
+# Atualizar comentário
+PUT {{baseUrl}}/comentarios/{{comentarioId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "id": {{comentarioId}},
+  "chamado_id": {{chamadoId}},
+  "usuario_id": {{tecnicoId}},
+  "texto": "Problema identificado. Iniciando correção.",
+  "created_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name deleteComentario
+# Deletar comentário
+DELETE {{baseUrl}}/comentarios/{{comentarioId}}
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### SETORES
+### ========================================
+
+### @name listSetores
+# Listar todos os setores
+GET {{baseUrl}}/setores
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getSetor
+# Buscar setor por ID
+GET {{baseUrl}}/setores/1
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### PRIORIDADES
+### ========================================
+
+### @name listPrioridades
+# Listar todas as prioridades
+GET {{baseUrl}}/prioridades
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getPrioridade
+# Buscar prioridade por ID
+GET {{baseUrl}}/prioridades/1
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getPrioridadeByNome
+# Buscar prioridade por nome
+GET {{baseUrl}}/prioridades?nome=alta
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### STATUS
+### ========================================
+
+### @name listStatus
+# Listar todos os status
+GET {{baseUrl}}/status
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getStatus
+# Buscar status por ID
+GET {{baseUrl}}/status/1
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getStatusByNome
+# Buscar status por nome
+GET {{baseUrl}}/status?nome=aberto
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### QUERIES AVANÇADAS
+### ========================================
+
+### @name getChamadosOrdenados
+# Buscar chamados ordenados por data (mais recentes)
+GET {{baseUrl}}/chamados?_sort=created_at&_order=desc
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosPaginados
+# Buscar chamados com paginação (página 1, 5 itens)
+GET {{baseUrl}}/chamados?_page=1&_limit=5
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadosFiltrados
+# Buscar chamados com múltiplos filtros e ordenação
+GET {{baseUrl}}/chamados?status=aberto&prioridade=alta&_sort=created_at&_order=desc
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getUsuariosAtivos
+# Buscar usuários ativos
+GET {{baseUrl}}/users?is_active=true
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getTecnicosAtivos
+# Buscar técnicos ativos
+GET {{baseUrl}}/users?role=tecnico&is_active=true
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name searchChamados
+# Buscar chamados por texto no título
+GET {{baseUrl}}/chamados?titulo_like=computador
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name searchUsuarios
+# Buscar usuários por nome (pesquisa parcial)
+GET {{baseUrl}}/users?first_name_like=Jo
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### RELACIONAMENTOS (Expansão)
+### ========================================
+
+### @name getChamadoComUsuario
+# Buscar chamado com dados do usuário expandidos
+GET {{baseUrl}}/chamados/1?_embed=usuario
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getUsuarioComChamados
+# Buscar usuário com seus chamados
+GET {{baseUrl}}/users/{{usuarioId}}?_embed=chamados
+Authorization: Bearer {{authToken}}
+
+###
+
+### @name getChamadoComComentarios
+# Buscar chamado com comentários
+GET {{baseUrl}}/chamados/2?_embed=comentarios
+Authorization: Bearer {{authToken}}
+
+###
+
+### ========================================
+### WORKFLOW COMPLETO
+### ========================================
+
+### @name workflowStep1
+# 1. Usuário cria chamado
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "titulo": "Workflow Test - Impressora com problema",
+  "descricao": "Impressora não imprime documentos coloridos",
+  "prioridade": "media",
+  "setor": "Comercial",
+  "status": "aberto",
+  "usuario_id": {{usuarioId}},
+  "tecnico_id": null,
+  "atendente_id": null,
+  "created_at": "{{$datetime iso8601}}",
+  "updated_at": "{{$datetime iso8601}}",
+  "resolved_at": null
+}
+
+###
+
+@workflowChamadoId = {{workflowStep1.response.body.$.id}}
+
+###
+
+### @name workflowStep2
+# 2. Atendente atribui técnico
+PATCH {{baseUrl}}/chamados/{{workflowChamadoId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "tecnico_id": {{tecnicoId}},
+  "atendente_id": {{atendenteId}},
+  "status": "em_atendimento",
+  "updated_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name workflowStep3
+# 3. Técnico adiciona comentário
+POST {{baseUrl}}/comentarios
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "chamado_id": {{workflowChamadoId}},
+  "usuario_id": {{tecnicoId}},
+  "texto": "Verificando drivers da impressora. Problema identificado: falta cartucho colorido.",
+  "created_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name workflowStep4
+# 4. Técnico resolve o chamado
+PATCH {{baseUrl}}/chamados/{{workflowChamadoId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "resolvido",
+  "resolved_at": "{{$datetime iso8601}}",
+  "updated_at": "{{$datetime iso8601}}"
+}
+
+###
+
+### @name workflowStep5
+# 5. Verificar chamado resolvido com comentários
+GET {{baseUrl}}/chamados/{{workflowChamadoId}}?_embed=comentarios
+Authorization: Bearer {{authToken}}
+
+###
