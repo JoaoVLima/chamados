@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "email": "admin@empresa.com",
       "password": "senha123",
@@ -13,7 +13,7 @@
       "created_at": "2024-01-15T10:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "tecnico1",
       "email": "tecnico1@empresa.com",
       "password": "senha123",
@@ -25,7 +25,7 @@
       "created_at": "2024-01-15T10:00:00Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "tecnico2",
       "email": "tecnico2@empresa.com",
       "password": "senha123",
@@ -37,7 +37,7 @@
       "created_at": "2024-01-16T09:00:00Z"
     },
     {
-      "id": 4,
+      "id": "4",
       "username": "atendente1",
       "email": "atendente1@empresa.com",
       "password": "senha123",
@@ -49,7 +49,7 @@
       "created_at": "2024-01-17T08:30:00Z"
     },
     {
-      "id": 5,
+      "id": "5",
       "username": "usuario1",
       "email": "usuario1@empresa.com",
       "password": "senha123",
@@ -61,7 +61,7 @@
       "created_at": "2024-01-18T11:00:00Z"
     },
     {
-      "id": 6,
+      "id": "6",
       "username": "usuario2",
       "email": "usuario2@empresa.com",
       "password": "senha123",
@@ -75,7 +75,7 @@
   ],
   "tokens": [
     {
-      "id": 1,
+      "id": "1",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIn0.fake_token_admin",
       "user_id": 1,
       "username": "admin",
@@ -84,7 +84,7 @@
       "created_at": "2024-11-28T10:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlY25pY28xIiwicm9sZSI6InRlY25pY28ifQ.fake_token_tecnico1",
       "user_id": 2,
       "username": "tecnico1",
@@ -95,14 +95,14 @@
   ],
   "auth_login": [
     {
-      "id": 1,
+      "id": "1",
       "email": "admin@empresa.com",
       "password": "senha123"
     }
   ],
   "chamados": [
     {
-      "id": 1,
+      "id": "1",
       "titulo": "Computador não liga",
       "descricao": "O computador da sala 205 não está ligando. Já tentei verificar os cabos e não funcionou.",
       "prioridade": "alta",
@@ -116,7 +116,7 @@
       "resolved_at": null
     },
     {
-      "id": 2,
+      "id": "2",
       "titulo": "Impressora sem toner",
       "descricao": "A impressora do setor de RH está sem toner. Precisamos imprimir folhas de pagamento urgente.",
       "prioridade": "media",
@@ -130,7 +130,7 @@
       "resolved_at": null
     },
     {
-      "id": 3,
+      "id": "3",
       "titulo": "E-mail não está recebendo mensagens",
       "descricao": "Desde ontem não consigo receber e-mails. Já tentei reiniciar o Outlook.",
       "prioridade": "alta",
@@ -144,7 +144,7 @@
       "resolved_at": "2024-11-27T16:45:00Z"
     },
     {
-      "id": 4,
+      "id": "4",
       "titulo": "Solicitar instalação de software",
       "descricao": "Preciso que seja instalado o AutoCAD no meu computador para iniciar um novo projeto.",
       "prioridade": "baixa",
@@ -158,7 +158,7 @@
       "resolved_at": null
     },
     {
-      "id": 5,
+      "id": "5",
       "titulo": "Internet lenta no setor",
       "descricao": "A internet no setor financeiro está muito lenta. Dificulta acessar os sistemas bancários.",
       "prioridade": "media",
@@ -172,7 +172,7 @@
       "resolved_at": null
     },
     {
-      "id": 6,
+      "id": "6",
       "titulo": "Mouse sem funcionar",
       "descricao": "O mouse parou de funcionar repentinamente.",
       "prioridade": "baixa",
@@ -186,7 +186,7 @@
       "resolved_at": null
     },
     {
-      "id": 7,
+      "id": "7",
       "titulo": "Acesso negado ao sistema ERP",
       "descricao": "Não consigo acessar o sistema ERP. Aparece mensagem de 'acesso negado'.",
       "prioridade": "alta",
@@ -200,7 +200,7 @@
       "resolved_at": null
     },
     {
-      "id": 8,
+      "id": "8",
       "titulo": "Backup de arquivos importantes",
       "descricao": "Preciso fazer backup de arquivos do projeto antes de formatar o computador.",
       "prioridade": "media",
@@ -216,28 +216,28 @@
   ],
   "comentarios": [
     {
-      "id": 1,
+      "id": "1",
       "chamado_id": 2,
       "usuario_id": 2,
       "texto": "Estou verificando o estoque de toner. Retorno em 30 minutos.",
       "created_at": "2024-11-28T08:05:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "chamado_id": 2,
       "usuario_id": 2,
       "texto": "Toner solicitado ao almoxarifado. Previsão de substituição às 14h.",
       "created_at": "2024-11-28T10:30:00Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "chamado_id": 3,
       "usuario_id": 3,
       "texto": "Problema resolvido. Era um bloqueio no servidor de e-mail.",
       "created_at": "2024-11-27T16:40:00Z"
     },
     {
-      "id": 4,
+      "id": "4",
       "chamado_id": 5,
       "usuario_id": 2,
       "texto": "Verificando o switch de rede do setor.",
@@ -246,51 +246,51 @@
   ],
   "setores": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Financeiro",
       "descricao": "Setor Financeiro"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "RH",
       "descricao": "Recursos Humanos"
     },
     {
-      "id": 3,
+      "id": "3",
       "nome": "TI",
       "descricao": "Tecnologia da Informação"
     },
     {
-      "id": 4,
+      "id": "4",
       "nome": "Comercial",
       "descricao": "Setor Comercial"
     },
     {
-      "id": 5,
+      "id": "5",
       "nome": "Engenharia",
       "descricao": "Setor de Engenharia"
     },
     {
-      "id": 6,
+      "id": "6",
       "nome": "Suporte",
       "descricao": "Suporte ao Cliente"
     }
   ],
   "prioridades": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "baixa",
       "nivel": 1,
       "cor": "#28a745"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "media",
       "nivel": 2,
       "cor": "#ffc107"
     },
     {
-      "id": 3,
+      "id": "3",
       "nome": "alta",
       "nivel": 3,
       "cor": "#dc3545"
@@ -298,22 +298,22 @@
   ],
   "status": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "aberto",
       "descricao": "Chamado aberto, aguardando atendimento"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "em_atendimento",
       "descricao": "Chamado sendo atendido por um técnico"
     },
     {
-      "id": 3,
+      "id": "3",
       "nome": "resolvido",
       "descricao": "Chamado resolvido pelo técnico"
     },
     {
-      "id": 4,
+      "id": "4",
       "nome": "cancelado",
       "descricao": "Chamado cancelado"
     }
